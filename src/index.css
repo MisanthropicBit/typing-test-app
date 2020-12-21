@@ -1,10 +1,81 @@
 body {
-  margin: 0;
+  margin: auto;
+  width: 50%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.section {
+  margin: 10px;
+}
+
+.codebox {
+  width: 100%;
+  margin: 20px 0 20px 0;
+  padding: 10px;
+  border-color: #ccc;
+  border-style: solid;
+  border-width: 2px;
+  height: 15em;
+}
+
+.form-inline {
+  display: inline;
+}
+
+.upload-button {
+  display: inline;
+  padding: 6px 12px;
+  margin: 0 5px 0 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #8ebf63;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: rgb(69, 79, 115); /* 86) */
+}
+
+.vertically-center {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 15px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.footer-text {
+  color: white;
+  padding: 0 10px 0 10px;
+}
+
+select {
+  padding: 5px;
+}
+
+textarea {
+  width: 100%;
+  margin: 20px 0 20px 0;
+  padding: 10px;
+  height: 5em;
+  resize: none;
+}
+
+div.justified {
+  display: flex;
+  justify-content: center;
 }
 
 code {
