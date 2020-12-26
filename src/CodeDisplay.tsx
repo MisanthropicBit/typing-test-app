@@ -153,7 +153,7 @@ export const CodeDisplay = () => {
    * @param lines An array of lines to move in
    * @param pos   Current position
    */
-  const moveToNextLine = (lines: string[], pos: Position) => {
+  const moveToNextLine = (lines: string[], pos: Position): void => {
     const atEof = pos.lineNum === lines.length
       && pos.index >= lines[pos.lineNum].length
 
