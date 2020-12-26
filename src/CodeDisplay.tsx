@@ -239,7 +239,7 @@ export const CodeDisplay = () => {
    * @param lines An array of lines to move in
    * @return If the position is at the end of the line
    */
-  const isCursorAtEndOfLine = (
+  const isPositionAtEndOfLine = (
     lines: string[],
     pos: Position,
   ): boolean => {
@@ -267,7 +267,7 @@ export const CodeDisplay = () => {
     if (!keyIgnores.includes(key)) {
       switch (key) {
         case 'Enter':
-          if (isCursorAtEndOfLine(languageLines, pos)) {
+          if (isPositionAtEndOfLine(languageLines, pos)) {
             moveToNextLine(languageLines, pos)
           } else {
             markError(pos)
