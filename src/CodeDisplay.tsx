@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { Button } from './Button'
 import { Codebox } from './Codebox'
 import { Dropdown } from './Dropdown'
 import { FileUpload } from './FileUpload'
@@ -88,6 +89,13 @@ export const CodeDisplay = () => {
   /**
    *
    */
+  const reset = (event: React.MouseEvent<HTMLInputElement>): void => {
+    setPos(startPos)
+    setErrorPos(invalidErrorPos)
+    setHits(0)
+    setMisses(0)
+  }
+
   const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     setLanguage(event.target.value)
 
@@ -301,6 +309,7 @@ export const CodeDisplay = () => {
         errorPos={errorPos}
         errorMarks={errorMarks}
       />
+      <Button name="Reset" onClick={event => reset(event)} />
       <TypingArea
         onKeyPress={onKeyPress}
       />

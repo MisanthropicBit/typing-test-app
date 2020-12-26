@@ -26,6 +26,24 @@ body {
   display: inline;
 }
 
+input.button {
+  display: inline;
+  padding: 6px 12px;
+  margin: 5px 5px 5px 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(69, 79, 115);
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  transition-duration: 0.3s;
+}
+
+input.button:hover {
+  background-color: #737fab;
+}
+
 .upload-button {
   display: inline;
   padding: 6px 12px;
