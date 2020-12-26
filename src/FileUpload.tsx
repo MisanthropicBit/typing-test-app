@@ -4,7 +4,7 @@ type FileUploadProps = {
 }
 
 /**
- *
+ * File upload component
  */
 export const FileUpload = (props: FileUploadProps) => {
   return (

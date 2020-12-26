@@ -5,7 +5,7 @@ type FooterProps = {
 }
 
 /**
- *
+ * Page footer component
  */
 export const Footer = (props: FooterProps) => {
   return (

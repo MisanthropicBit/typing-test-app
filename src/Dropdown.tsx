@@ -6,7 +6,7 @@ type DropdownProps<T> = {
 }
 
 /**
- *
+ * Dropdown component
  */
 export const Dropdown = (props: DropdownProps<string>) => {
   return (

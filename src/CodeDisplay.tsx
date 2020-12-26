@@ -87,7 +87,9 @@ export const CodeDisplay = () => {
   const [done, setDone] = useState(false)
 
   /**
+   * Event handler for when the reset button is pressed
    *
+   * @param event Event that should be handled
    */
   const reset = (event: React.MouseEvent<HTMLInputElement>): void => {
     setPos(startPos)
@@ -96,6 +98,11 @@ export const CodeDisplay = () => {
     setMisses(0)
   }
 
+  /**
+   * Event handler for when the language is changed
+   *
+   * @param event Event that should be handled
+   */
   const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     setLanguage(event.target.value)
 
@@ -129,7 +136,7 @@ export const CodeDisplay = () => {
   /**
    * Mark an error position if not already set and record a miss
    *
-   * @param idx Index to mark
+   * @param pos Current position
    */
   const markError = (pos: Position): void => {
     if (errorPos.index === -1) {
@@ -142,6 +149,9 @@ export const CodeDisplay = () => {
 
   /**
    * Move to the next line if possible
+   *
+   * @param lines An array of lines to move in
+   * @param pos   Current position
    */
   const moveToNextLine = (lines: string[], pos: Position) => {
     const atEof = pos.lineNum === lines.length
@@ -209,7 +219,11 @@ export const CodeDisplay = () => {
   }
 
   /**
+   * Return if the position is on the last line or not
    *
+   * @param pos   Current position
+   * @param lines An array of lines to move in
+   * @return If the position is on the last line
    */
   const wasLastLine = (
     lines: string[],
@@ -219,7 +233,11 @@ export const CodeDisplay = () => {
   }
 
   /**
+   * Whether the position is at the end of the line
    *
+   * @param pos   Current position
+   * @param lines An array of lines to move in
+   * @return If the position is at the end of the line
    */
   const isCursorAtEndOfLine = (
     lines: string[],
@@ -235,7 +253,9 @@ export const CodeDisplay = () => {
   }
 
   /**
+   * Event handler for key presses
    *
+   * @param event Keyboard event
    */
   const onKeyPress = (event: React.KeyboardEvent): void => {
     if (done) {

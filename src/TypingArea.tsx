@@ -5,13 +5,16 @@ type TypingAreaProps = {
 }
 
 /**
- *
+ * Typing component where the user types
  */
 export const TypingArea = (props: TypingAreaProps) => {
   const [hasTyped, setHasTyped] = useState(false)
 
   const onKeyPress = typeof props.onKeyPress !== 'function' ? (_: React.KeyboardEvent<HTMLTextAreaElement>) => null : props.onKeyPress
 
+  /**
+   * Event handler for restting the textarea
+   */
   const resetTextarea = (event: React.KeyboardEvent<HTMLTextAreaElement>): void => {
     event.currentTarget.value = ''
     event.currentTarget.placeholder = ''
@@ -19,6 +22,11 @@ export const TypingArea = (props: TypingAreaProps) => {
     setHasTyped(true)
   }
 
+  /**
+   * Event handler for handling key presses and resetting the text area
+   *
+   * @param event Keyboard event
+   */
   const handleNextWord = (event: React.KeyboardEvent<HTMLTextAreaElement>): void => {
     onKeyPress(event)
 

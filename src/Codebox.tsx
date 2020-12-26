@@ -12,7 +12,7 @@ type CodeboxProps = {
 }
 
 /**
- *
+ * Component for displaying the code that should be typed
  */
 export const Codebox = (props: CodeboxProps) => {
   const { color, errorColor, lines, pos, errorPos } = props
