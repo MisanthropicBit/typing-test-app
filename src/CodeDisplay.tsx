@@ -250,12 +250,16 @@ export const CodeDisplay = () => {
           if (errorPos.index === -1) {
             // If no error is set, mark this as an error
             markError(pos)
+
+            event.preventDefault()
           } else {
             if (pos.index > errorPos.index) {
               moveToPreviousPosition(languageLines)
             } else {
               // We are on the position of the error, just count it as a miss
               setMisses(prevMisses => prevMisses + 1)
+
+              event.preventDefault()
             }
           }
           break
