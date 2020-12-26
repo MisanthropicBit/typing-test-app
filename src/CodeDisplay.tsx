@@ -83,6 +83,7 @@ export const CodeDisplay = () => {
   const [errorMarks, setErrorMarks] = useState(initialErrorMarks)
   const [hits, setHits] = useState(0)
   const [misses, setMisses] = useState(0)
+  const [done, setDone] = useState(false)
 
   /**
    *
@@ -132,15 +133,91 @@ export const CodeDisplay = () => {
   }
 
   /**
-   * Move to the next line
+   * Move to the next line if possible
    */
-  const moveToNextLine = () => {
+  const moveToNextLine = (lines: string[], pos: Position) => {
+    const atEof = pos.lineNum === lines.length
+      && pos.index >= lines[pos.lineNum].length
+
+    if (!atEof) {
+      setPos(prevPos => {
+        return {
+          index: 0,
+          lineNum: prevPos.lineNum + 1,
+        }
+      })
+    }
+  }
+
+  /**
+   * Move to the next position, possibly on a new line
+   *
+   * @param lines An array of lines to move in
+   * @param pos   Current position
+   */
+  const moveToNextPosition = (lines: string[], pos: Position): void => {
+    if (pos.index >= lines[pos.lineNum].length) {
+      // At the end of the line, move to the next one
+      moveToNextLine(lines, pos)
+    } else {
+      setPos(prevPos => {
+        return {
+          index: prevPos.index + 1,
+          lineNum: prevPos.lineNum,
+        }
+      })
+    }
+  }
+
+  /**
+   * Move to the previous position if possible
+   *
+   * @param lines An array of lines to move in
+   */
+  const moveToPreviousPosition = (lines: string[]): void => {
     setPos(prevPos => {
-      return {
-        index: 0,
-        lineNum: prevPos.lineNum + 1,
+      // Only move back if the error position has been set
+      if (errorPos.index === -1) {
+        return prevPos
+      }
+
+      const newIndex = prevPos.index - 1
+
+      if (newIndex < 0 && prevPos.lineNum > 0) {
+        // Only move to the previous line if there is a previous line
+        const prevLineNum = prevPos.lineNum - 1
+
+        return {
+          index: lines[prevLineNum].length - 1,
+          lineNum: prevLineNum,
+        }
+      } else {
+        return {
+          index: prevPos.index - 1,
+          lineNum: prevPos.lineNum,
+        }
       }
     })
+  }
+
+  /**
+   *
+   */
+  const wasLastLine = (
+    lines: string[],
+    pos: Position,
+  ): boolean => {
+    return pos.lineNum >= lines.length
+  }
+
+  /**
+   *
+   */
+  const isCursorAtEndOfLine = (
+    lines: string[],
+    pos: Position,
+  ): boolean => {
+    return lines[pos.lineNum].length === pos.index
   }
 
   const languageLines = languageExamples.get(language)
@@ -148,8 +225,6 @@ export const CodeDisplay = () => {
   if (languageLines === undefined) {
     throw Error('Invalid language')
   }
-
-  const done = pos.lineNum >= languageLines.length
 
   /**
    *
@@ -164,8 +239,8 @@ export const CodeDisplay = () => {
     if (!keyIgnores.includes(key)) {
       switch (key) {
         case 'Enter':
-          if (true) {//index === languageExamples[language][pos.lineNum].length) {
-            moveToNextLine()
+          if (isCursorAtEndOfLine(languageLines, pos)) {
+            moveToNextLine(languageLines, pos)
           } else {
             markError(pos)
           }
@@ -173,14 +248,15 @@ export const CodeDisplay = () => {
 
         case 'Backspace':
           if (errorPos.index === -1) {
+            // If no error is set, mark this as an error
             markError(pos)
           } else {
-            setPos(prevPos => {
-              return {
-                index: prevPos.index - 1,
-                lineNum: prevPos.lineNum,
-              }
-            })
+            if (pos.index > errorPos.index) {
+              moveToPreviousPosition(languageLines)
+            } else {
+              // We are on the position of the error, just count it as a miss
+              setMisses(prevMisses => prevMisses + 1)
+            }
           }
           break
 
@@ -194,15 +270,14 @@ export const CodeDisplay = () => {
             markError(pos)
           }
 
-            setPos(prevPos => {
-              return {
-                index: prevPos.index + 1,
-                lineNum: prevPos.lineNum,
-              }
-            })
+          moveToNextPosition(languageLines, pos)
           break
       }
     }
+  }
+
+  if (!done && wasLastLine(languageLines, pos)) {
+    setDone(true)
   }
 
   return (
@@ -228,6 +303,7 @@ export const CodeDisplay = () => {
       <p>Hits: {hits}</p>
       <p>Misses: {misses}</p>
       <p>Hitrate: {hits > 0 ? formatDecimal(hits/(hits + misses) * 100.0, 2) : 0.0}%</p>
+      <p>{done ? "Done!" : "More typing to go"}</p>
     </div>
   )
 }
