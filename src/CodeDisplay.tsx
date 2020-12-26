@@ -67,7 +67,7 @@ export const CodeDisplay = () => {
 
   const startPos: Position = {
     index: 0,
-    lineNum: 0
+    lineNum: 0,
   }
 
   const invalidErrorPos: Position = {
@@ -282,7 +282,7 @@ export const CodeDisplay = () => {
 
   return (
     <div style={{display: "inline"}}>
-      Select a language: 
+      Select a language:
       <Dropdown
         options={defaultLanguages}
         onChange={onChangeLanguage}
