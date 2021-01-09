@@ -77,6 +77,7 @@ export const CodeDisplay = () => {
   }
 
   const initialErrorMarks: Position[] = []
+  const placeholderDefaultText = 'Start typing here...'
 
   const [language, setLanguage] = useState('C')
   const [pos, setPos] = useState(startPos)
@@ -85,6 +86,8 @@ export const CodeDisplay = () => {
   const [hits, setHits] = useState(0)
   const [misses, setMisses] = useState(0)
   const [done, setDone] = useState(false)
+  const [text, setText] = useState('')
+  const [placeholder, setPlaceholder] = useState(placeholderDefaultText)
 
   /**
    * Event handler for when the reset button is pressed
@@ -96,6 +99,8 @@ export const CodeDisplay = () => {
     setErrorPos(invalidErrorPos)
     setHits(0)
     setMisses(0)
+    setText('')
+    setPlaceholder(placeholderDefaultText)
   }
 
   /**
@@ -269,6 +274,7 @@ export const CodeDisplay = () => {
         case 'Enter':
           if (isPositionAtEndOfLine(languageLines, pos)) {
             moveToNextLine(languageLines, pos)
+            setText('')
           } else {
             markError(pos)
           }
@@ -332,6 +338,9 @@ export const CodeDisplay = () => {
       <Button name="Reset" onClick={event => reset(event)} />
       <TypingArea
         onKeyPress={onKeyPress}
+        isErrorSet={errorPos.index !== -1}
+        placeholder={placeholder}
+        value={text}
       />
       <p>Hits: {hits}</p>
       <p>Misses: {misses}</p>
