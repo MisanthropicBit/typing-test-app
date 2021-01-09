@@ -301,11 +301,27 @@ export const CodeDisplay = () => {
         default:
           const result = isKeyCorrect(key)
 
-          if (result) {
-            setHits(prevHits => prevHits + 1)
-            setErrorPos(invalidErrorPos)
+          if (errorPos.index !== -1) {
+            if (result && pos.index === errorPos.index && pos.lineNum === errorPos.lineNum) {
+              // Error position is set and the correct key was pressed
+              // at the same position
+              setHits(prevHits => prevHits + 1)
+              setErrorPos(invalidErrorPos)
+            } else {
+              setMisses(prevMisses => prevMisses + 1)
+            }
           } else {
-            markError(pos)
+            if (result) {
+              setHits(prevHits => prevHits + 1)
+
+              if (key === ' ') {
+                setText('')
+              } else {
+                setText(prevText => prevText + event.key)
+              }
+            } else {
+              markError(pos)
+            }
           }
 
           moveToNextPosition(languageLines, pos)
