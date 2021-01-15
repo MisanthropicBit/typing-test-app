@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 type TypingAreaProps = {
   onKeyPress: (event: React.KeyboardEvent) => void
   isErrorSet: boolean
+  placeholder: string
+  value: string
 }
 
 /**
